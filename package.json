@@ -1,0 +1,14 @@
+{
+  "name": "age-secret-drop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "age-encryption": "^0.3.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.10"
+  }
+}
