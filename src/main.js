@@ -13,6 +13,21 @@ function setStatus(message, kind = 'info') {
   state.status.dataset.kind = kind;
 }
 
+function initializeRecipientFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  const reference = params.get('reference') ?? hashParams.get('reference');
+
+  if (!reference) return false;
+
+  const publicKey = reference.trim();
+  if (!publicKey) return false;
+
+  state.publicKey.value = publicKey;
+  setStatus('Recipient public key loaded from the URL reference parameter.', 'success');
+  return true;
+}
+
 async function encryptSecret() {
   const recipient = state.publicKey.value.trim();
   const plaintext = state.plaintext.value;
@@ -71,4 +86,6 @@ state.clearBtn.addEventListener('click', (event) => {
   clearAll();
 });
 
-setStatus('Ready. Nothing leaves the page until you copy the ciphertext.');
+if (!initializeRecipientFromUrl()) {
+  setStatus('Ready. Nothing leaves the page until you copy the ciphertext.');
+}
